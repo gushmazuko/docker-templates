@@ -38,3 +38,14 @@ TZ=Europe/Berlin
 ```
     address = "http://authelia:9091/api/verify?rd=https://site.mydomain.com"
 ```
+
+## Let's Encrypt & Docker
+* Create `WEB` Docker Network
+```bash
+docker network create web
+```
+* Create `acme.json` file and change permission to `600`
+```bash
+touch acme.json`
+chmod 600
+```
