@@ -1,0 +1,51 @@
+debug = false
+checkNewVersion = true
+accessLogsFile = "/dev/stdout"
+ sendAnonymousUsage = false
+
+# Log to stdout by default
+[accessLog]
+
+# Minitoring with https://prometheus.io
+#[metrics]
+#  [metrics.prometheus]
+#    addEntryPointsLabels = true
+#    addServicesLabels = true
+#    buckets = [0.1,0.3,1.2,5.0]
+
+# Retry failed requests three times
+[retry]
+  attempts = 3
+
+[api]
+  dashboard = true
+  insecure = false
+
+[providers.docker]
+  exposedByDefault = false
+  watch = true
+#  useBindPortIP = true
+  network = "web"
+
+[entryPoints]
+  [entryPoints.web]
+    address = ":80"
+
+  [entryPoints.web-secure]
+    address = ":443"
+
+[certificatesResolvers.le.acme]
+  email = "email@example.com"
+  storage = "acme.json"
+  [certificatesResolvers.le.acme.httpChallenge]
+    # used during the challenge
+    entryPoint = "web"
+#    resolvers = ["1.1.1.1:53", "8.8.8.8:53"]
+  [certificatesResolvers.le.acme.tlsChallenge]
+
+# Uncomment fot Aauthelia
+# More info https://www.authelia.com/docs/deployment/supported-proxies/traefik2.x.html
+#[providers]
+#  [providers.file]
+#    directory = "/traefik_config"
+#    watch = true

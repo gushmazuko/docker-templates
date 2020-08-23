@@ -1,0 +1,10 @@
+# More info check https://www.authelia.com/docs/deployment/supported-proxies/traefik2.x.html
+#[tls.options]
+#  [tls.options.default]
+#    sniStrict = true
+
+[http.middlewares]
+  [http.middlewares.authelia.forwardAuth]
+    address = "http://authelia:9091/api/verify?rd=https://site.mydomain.com"
+    trustForwardHeader = true
+    authResponseHeaders = ["Remote-User", "Remote-Groups"]

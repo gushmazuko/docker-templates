@@ -1,0 +1,35 @@
+version: '3'
+services:
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    restart: always
+    labels:
+    # Dashboard
+      - "traefik.enable=true"
+      - "traefik.http.routers.${SERVICE}.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.${SERVICE}.service=api@internal"
+      - "traefik.http.routers.${SERVICE}.tls.certresolver=le"
+      - "traefik.http.routers.${SERVICE}.entrypoints=web-secure"
+      - "traefik.http.routers.${SERVICE}.middlewares=${SERVICE}_auth"
+# Use Traefik basicauth: https://docs.traefik.io/middlewares/basicauth/
+# To create a user:password pair, the following command can be used:
+# echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g
+      - "traefik.http.middlewares.${SERVICE}_auth.basicauth.users=user:$$apr1$$4h0uuN1U$$WAPb1/S2tWtrYtZwqS7Cp0"
+      - "traefik.http.middlewares.${SERVICE}_https.redirectscheme.scheme=https"
+      - "traefik.http.routers.${SERVICE}_redirect.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.${SERVICE}_redirect.entrypoints=web"
+      - "traefik.http.routers.${SERVICE}_redirect.middlewares=${SERVICE}_https"
+      - "com.centurylinklabs.watchtower.enable=true"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/traefik.toml
+      - "./acme.json:/acme.json"
+    networks:
+      - web
+networks:
+  web:
+    external: true
