@@ -21,7 +21,13 @@ echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g
 ```
 
 ## Environment Variables
-* Replace value in `.env`
+* Replace values in `.env`
 ```
-DOMAIN_NAME=
+DOMAIN_NAME=site.mydomain.com
+TZ=Europe/Berlin
+```
+
+* Replace `site.mydomain.com` in `traefik_config/dynamic_conf.toml`
+```
+    address = "http://authelia:9091/api/verify?rd=https://site.mydomain.com"
 ```
