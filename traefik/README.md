@@ -19,3 +19,9 @@ echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g
     directory = "/traefik_config"
     watch = true
 ```
+
+## Environment Variables
+* Replace value in `.env`
+```
+DOMAIN_NAME=
+```

@@ -14,18 +14,20 @@ accessLogsFile = "/dev/stdout"
 #    buckets = [0.1,0.3,1.2,5.0]
 
 # Retry failed requests three times
-[retry]
-  attempts = 3
+[http.middlewares]
+  [http.middlewares.test-retry.retry]
+     attempts = 4
 
 [api]
   dashboard = true
   insecure = false
 
-[providers.docker]
-  exposedByDefault = false
-  watch = true
-#  useBindPortIP = true
-  network = "web"
+[providers]
+  [providers.docker]
+    exposedByDefault = false
+    watch = true
+  #  useBindPortIP = true
+    network = "web"
 
 [entryPoints]
   [entryPoints.web]
