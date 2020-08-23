@@ -27,6 +27,13 @@ DOMAIN_NAME=site.mydomain.com
 TZ=Europe/Berlin
 ```
 
+* Replace email for Let's encrypt ACME
+```
+[certificatesResolvers]
+  [certificatesResolvers.le.acme]
+    email = "email@example.com"
+```
+
 * Replace `site.mydomain.com` in `traefik_config/dynamic_conf.toml`
 ```
     address = "http://authelia:9091/api/verify?rd=https://site.mydomain.com"
