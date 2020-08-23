@@ -36,3 +36,5 @@ dns-del a.example.com
 ```bash
 dns-get example.com
 ```
+
+Refer to https://zonomi.com/app/dns/dyndns.jsp
