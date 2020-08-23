@@ -1,11 +1,11 @@
 
 ## [Traefik Basicauth](https://docs.traefik.io/middlewares/basicauth/)
 * For Traefik basic authentication rename `docker-compose_basicauth.yml` to `docker-compose.yml`
-* To create a `user:password` pair, the following command can be used:
+* Create a `user:password` pair hash using following command:
 ```bash
 echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g
 ```
-* Replace user password pair with your in `docker-compose.yml`
+* Replace `user:$$apr1$$4h0uuN1U$$WAPb1/S2tWtrYtZwqS7Cp0` pair with your value in `docker-compose.yml`
 ```yml
 - "traefik.http.middlewares.${SERVICE}_auth.basicauth.users=user:$$apr1$$4h0uuN1U$$WAPb1/S2tWtrYtZwqS7Cp0"
 ```
