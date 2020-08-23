@@ -36,14 +36,15 @@ accessLogsFile = "/dev/stdout"
   [entryPoints.web-secure]
     address = ":443"
 
-[certificatesResolvers.le.acme]
-  email = "email@example.com"
-  storage = "acme.json"
-  [certificatesResolvers.le.acme.httpChallenge]
-    # used during the challenge
-    entryPoint = "web"
-#    resolvers = ["1.1.1.1:53", "8.8.8.8:53"]
-  [certificatesResolvers.le.acme.tlsChallenge]
+[certificatesResolvers]
+  [certificatesResolvers.le.acme]
+    email = "email@example.com"
+    storage = "acme.json"
+    [certificatesResolvers.le.acme.httpChallenge]
+      # used during the challenge
+      entryPoint = "web"
+  #    resolvers = ["1.1.1.1:53", "8.8.8.8:53"]
+    [certificatesResolvers.le.acme.tlsChallenge]
 
 # Uncomment fot Aauthelia
 # More info https://www.authelia.com/docs/deployment/supported-proxies/traefik2.x.html
