@@ -12,7 +12,7 @@ Add to `~/.aliasrc`
 ```bash
 DNS_API="XXXXXXX"
 alias dns-rec='_dns-rec() { curl -Ss "https://zonomi.com/app/dns/dyndns.jsp?host=$1&api_key=$DNS_API";}; _dns-rec'
-alias dns-add='_dns-add() {curl -Ss "https://zonomi.com/app/dns/dyndns.jsp?action=SET&name=$1=$2&type=A&api_key=$DNS_API";}; _dns-add'
+alias dns-add='_dns-add() { curl -Ss "https://zonomi.com/app/dns/dyndns.jsp?action=SET&name=$1&value=$2&type=A&api_key=$DNS_API";}; _dns-add'
 alias dns-del='_dns-del() { curl -Ss "https://zonomi.com/app/dns/dyndns.jsp?action=DELETE&name=$1&type=A&api_key=$DNS_API";}; _dns-del'
 alias dns-get='_dns-get() { curl -Ss "https://zonomi.com/app/dns/dyndns.jsp?action=QUERY&name=**.dxside.net&api_key=$DNS_API" | grep name -A 3;}; _dns-get'
 ```
