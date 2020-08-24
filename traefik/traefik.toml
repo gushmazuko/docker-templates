@@ -1,10 +1,17 @@
-debug = false
-checkNewVersion = true
-accessLogsFile = "/dev/stdout"
- sendAnonymousUsage = false
+# Refer to https://docs.traefik.io/reference/static-configuration/file/
+[global]
+  checkNewVersion = true
+  sendAnonymousUsage = false
 
-# Log to stdout by default
+# https://docs.traefik.io/observability/logs
+[log]
+#  level = "DEBUG"
+
+# https://docs.traefik.io/observability/access-logs/#access-logs
 [accessLog]
+  bufferingSize = 42
+#  filePath = "/dev/stdout"
+#  format = "json"
 
 # Minitoring with https://prometheus.io
 #[metrics]
@@ -14,13 +21,15 @@ accessLogsFile = "/dev/stdout"
 #    buckets = [0.1,0.3,1.2,5.0]
 
 # Retry failed requests three times
+# https://docs.traefik.io/middlewares/retry/#retry
 [http.middlewares]
   [http.middlewares.test-retry.retry]
      attempts = 4
 
 [api]
+  insecure = true
   dashboard = true
-  insecure = false
+  debug = true
 
 [providers]
   [providers.docker]
