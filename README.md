@@ -24,7 +24,7 @@ dns-rec example.com
 
 * dns-add - Set an IP Address (A) record: attribute `a.example.com to 10.0.0.1`
 ```bash
-dns-add example.com 10.0.0.1
+dns-add a.example.com 10.0.0.1
 ```
 
 * dns-del - Delete an IP Address (A) record: `a.example.com`
