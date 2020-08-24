@@ -47,5 +47,5 @@ docker network create web
 * Create `acme.json` file and change permission to `600`
 ```bash
 touch acme.json
-chmod 600
+chmod 600 acme.json
 ```
