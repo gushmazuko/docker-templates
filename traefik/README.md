@@ -27,7 +27,7 @@ DOMAIN_NAME=site.mydomain.com
 TZ=Europe/Berlin
 ```
 
-* Replace email for Let's encrypt ACME
+* Replace email for Let's encrypt ACME in `traefik.toml`
 ```
 [certificatesResolvers]
   [certificatesResolvers.le.acme]
