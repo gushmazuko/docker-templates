@@ -3,7 +3,7 @@ services:
   traefik:
     image: traefik:latest
     container_name: traefik
-    restart: always
+    restart: unless-stopped
     labels:
     # Dashboard
       - "traefik.enable=true"
