@@ -1,6 +1,6 @@
 FROM nginx:latest
 LABEL maintainer="gushmazuko <gushmazuko@protonmail.com>"
-LABEL description="Docker Image for Grav based on nginx & php"
+LABEL description="Docker Image for Grav based on NGINX"
 
 # Install dependencies
 RUN apt update && apt install -y --no-install-recommends \
