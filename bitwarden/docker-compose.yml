@@ -1,0 +1,57 @@
+version: "3.8"
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: ${SERVICE}
+    restart: unless-stopped
+    volumes:
+      - ./bw_data:/data
+      - /etc/localtime:/etc/localtime
+    environment:
+      WEBSOCKET_ENABLED: true # Required to use websockets
+      SIGNUPS_ALLOWED: false  # set to false to disable signups
+      INVITATIONS_ALLOWED: true
+      TZ: ${TZ}
+      ADMIN_TOKEN: ${TOKEN}
+    # ports:
+    #   - 3012:3012
+    #   - 8080:80
+
+    # # Loki Support
+    # logging:
+    #   driver: loki
+    #   options:
+    #     loki-url: "$URL_LOKI"
+    #     loki-external-labels: service={{.Name}}
+
+    labels:
+      - "traefik.enable=true"
+      # middlewares
+      - "traefik.http.middlewares.${SERVICE}-redirect-https.redirectscheme.scheme=https"
+      # ui http; redirect to https
+      - "traefik.http.routers.${SERVICE}-ui-http.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.${SERVICE}-ui-http.entrypoints=web"
+      - "traefik.http.routers.${SERVICE}-ui-http.middlewares=${SERVICE}-redirect-https"
+      - "traefik.http.routers.${SERVICE}-ui-http.service=${SERVICE}-ui"
+      # ui https
+      - "traefik.http.routers.${SERVICE}-ui-https.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.${SERVICE}-ui-https.entrypoints=web-secure"
+      - "traefik.http.routers.${SERVICE}-ui-https.tls.certresolver=le"
+      - "traefik.http.routers.${SERVICE}-ui-https.service=${SERVICE}-ui"
+      - "traefik.http.services.${SERVICE}-ui.loadbalancer.server.port=${SERVICE_PORT}"
+      # websocket http; redirect to https
+      - "traefik.http.routers.${SERVICE}-websocket-http.rule=Host(`${DOMAIN_NAME}`) && Path(`/notifications/hub`)"
+      - "traefik.http.routers.${SERVICE}-websocket-http.entrypoints=web"
+      - "traefik.http.routers.${SERVICE}-websocket-http.middlewares=${SERVICE}-redirect-https"
+      - "traefik.http.routers.${SERVICE}-websocket-http.service=${SERVICE}-websocket"
+      # websocket https
+      - "traefik.http.routers.${SERVICE}-websocket-https.rule=Host(`${DOMAIN_NAME}`) && Path(`/notifications/hub`)"
+      - "traefik.http.routers.${SERVICE}-websocket-https.entrypoints=web-secure"
+      - "traefik.http.routers.${SERVICE}-websocket-https.tls=true"
+      - "traefik.http.routers.${SERVICE}-websocket-https.service=${SERVICE}-websocket"
+      - "traefik.http.services.${SERVICE}-websocket.loadbalancer.server.port=${WEBSOCKET_PORT}"
+    networks:
+      - web
+networks:
+  web:
+    external: true
